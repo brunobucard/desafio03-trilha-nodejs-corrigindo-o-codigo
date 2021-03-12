@@ -41,17 +41,11 @@ app.put("/repositories/:id", (request, response) => {
     return response.status(404).json({ error: "Repository not found" });
   }
 
-  //const repository = { ...repositories[repositoryIndex], ...updatedRepository };
-
-  //repositories[repositoryIndex] = repository;
-
   const techsArray = techs;
 
   repositories[repositoryIndex].title = title;
   repositories[repositoryIndex].url = url;
   repositories[repositoryIndex].techs = techsArray;
-
-
 
   return response.json(repositories);
 });
@@ -59,10 +53,10 @@ app.put("/repositories/:id", (request, response) => {
 app.delete("/repositories/:id", (request, response) => {
   const { id } = request.params;
 
-  repositoryIndex = repositories.findIndex(repository => repository.id === id);
+  const repositoryIndex = repositories.findIndex((repository) => repository.id === id);
 
-  if (repositoryIndex > 0) {
-    return response.status(404).json({ error: "Repository not found" });
+  if (repositoryIndex < 0) {
+    return response.status(404).json({ error: "Repository not found!" });
   }
 
   repositories.splice(repositoryIndex, 1);
