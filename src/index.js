@@ -28,26 +28,32 @@ app.post("/repositories", (request, response) => {
   repository.techs.push(techsArray);
   repositories.push(repository);
 
-
-
-  return response.status(204).json(repository);
+  return response.status(201).json(repository);
 });
 
 app.put("/repositories/:id", (request, response) => {
   const { id } = request.params;
-  const updatedRepository = request.body;
+  const { title, url, techs} = request.body;
 
-  repositoryIndex = repositories.findindex(repository => repository.id === id);
+  const repositoryIndex = repositories.findIndex((repository) => repository.id === id);
 
   if (repositoryIndex < 0) {
     return response.status(404).json({ error: "Repository not found" });
   }
 
-  const repository = { ...repositories[repositoryIndex], ...updatedRepository };
+  //const repository = { ...repositories[repositoryIndex], ...updatedRepository };
 
-  repositories[repositoryIndex] = repository;
+  //repositories[repositoryIndex] = repository;
 
-  return response.json(repository);
+  const techsArray = techs;
+
+  repositories[repositoryIndex].title = title;
+  repositories[repositoryIndex].url = url;
+  repositories[repositoryIndex].techs = techsArray;
+
+
+
+  return response.json(repositories);
 });
 
 app.delete("/repositories/:id", (request, response) => {
