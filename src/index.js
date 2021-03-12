@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { v4: uuid } = require("uuid");
+const { v4: uuidv4 } = require("uuid");
 
 const app = express();
 
@@ -13,17 +13,24 @@ app.get("/repositories", (request, response) => {
 });
 
 app.post("/repositories", (request, response) => {
-  const { title, url, techs } = request.body
+  const { title, url, techs } = request.body;
 
   const repository = {
-    id: uuid(),
+    id: uuidv4(),
     title,
     url,
-    techs,
+    techs: [],
     likes: 0
   };
 
-  return response.json(repository);
+  const techsArray = techs;
+
+  repository.techs.push(techsArray);
+  repositories.push(repository);
+
+
+
+  return response.status(204).json(repository);
 });
 
 app.put("/repositories/:id", (request, response) => {
